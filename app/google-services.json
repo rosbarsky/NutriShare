@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "8593418865",
+    "project_id": "nutrishare-a784a",
+    "storage_bucket": "nutrishare-a784a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8593418865:android:b4b74003a61b6c188a89d0",
+        "android_client_info": {
+          "package_name": "net.nutrishare.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYkVwoNTS1nIYU1rE4pDYQ5to10ClP2bw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
