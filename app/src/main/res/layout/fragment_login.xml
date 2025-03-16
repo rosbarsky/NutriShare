@@ -72,6 +72,14 @@
                 android:layout_marginTop="24dp"
                 android:text="Login"
                 style="@style/Widget.MaterialComponents.Button"/>
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progress_bar"
+                android:layout_gravity="center_horizontal"
+                android:visibility="gone"
+                />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
