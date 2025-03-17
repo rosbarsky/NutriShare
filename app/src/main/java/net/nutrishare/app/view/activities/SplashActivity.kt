@@ -7,6 +7,8 @@ import android.os.Handler
 import android.os.Looper
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import net.nutrishare.app.R
 import net.nutrishare.app.viewmodel.SplashViewModel
 
@@ -19,7 +21,9 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        splashViewModel.checkUserSession()
+        lifecycleScope.launch {
+            splashViewModel.checkUserSession()
+        }
         Handler(Looper.getMainLooper()).postDelayed({
             splashViewModel.sessionCheckResult.observe(this) { isLoggedIn ->
                 if (isLoggedIn) {

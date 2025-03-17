@@ -1,10 +1,13 @@
 package net.nutrishare.app.data
 
 import android.net.Uri
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
+import net.nutrishare.app.model.User
+import net.nutrishare.app.utils.SessionManager
 
 sealed class AuthResult {
     data class Success(val message: String): AuthResult()
@@ -20,6 +23,10 @@ class AuthRepository {
     suspend fun login(email: String, password: String): AuthResult {
         return try {
             auth.signInWithEmailAndPassword(email, password).await()
+            val user = auth.currentUser
+            if (user != null){
+                fetchUserDetails(user.uid)
+            }
             AuthResult.Success("Login Successful")
         } catch (e: Exception) {
             AuthResult.Failure(e)
@@ -34,6 +41,7 @@ class AuthRepository {
                 uploadProfileImage(user?.uid, profileImageUri)
             } else null
             saveUserDetail(user?.uid, username, imageUrl)
+            SessionManager.setUser(User("${user?.uid}",username,"$imageUrl"))
             AuthResult.Success("Registration Successful")
         } catch (e: Exception) {
             AuthResult.Failure(e)
@@ -84,6 +92,20 @@ class AuthRepository {
             AuthResult.Success("Profile image updated successfully")
         } catch (e: Exception) {
             AuthResult.Failure(e)
+        }
+    }
+
+    private suspend fun fetchUserDetails(userId: String){
+        try {
+            val documentSnapshot = firestore.collection("USERS").document(userId).get().await()
+            if (documentSnapshot.exists()) {
+                val user = documentSnapshot.toObject(User::class.java)
+                user?.let {
+                    SessionManager.setUser(it)
+                }
+            }
+        } catch (e: Exception) {
+            Log.d("TEST999", e.localizedMessage)
         }
     }
 
