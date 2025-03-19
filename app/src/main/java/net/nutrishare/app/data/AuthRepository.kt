@@ -20,6 +20,15 @@ class AuthRepository {
     private val storageRef = FirebaseStorage.getInstance().reference.child("profile_images")
     private val firestore = FirebaseFirestore.getInstance()
 
+    suspend fun logout(): AuthResult {
+        return try {
+            auth.signOut()
+            AuthResult.Success("Logout Successful")
+        } catch (e: Exception) {
+            AuthResult.Failure(e)
+        }
+    }
+
     suspend fun login(email: String, password: String): AuthResult {
         return try {
             auth.signInWithEmailAndPassword(email, password).await()

@@ -14,6 +14,12 @@ class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() {
     private val _authResult = MutableLiveData<AuthResult>()
     val authResult: LiveData<AuthResult> = _authResult
 
+    fun logout() {
+        viewModelScope.launch {
+            _authResult.value = authRepository.logout()
+        }
+    }
+
     fun login(email: String, password: String) {
         viewModelScope.launch {
             _authResult.value = authRepository.login(email, password)
