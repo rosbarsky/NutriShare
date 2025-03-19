@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_feed_fragment_to_createPostFragment"
             app:destination="@id/createPostFragment" />
+        <action
+            android:id="@+id/action_feed_fragment_to_commentsFragment"
+            app:destination="@id/commentsFragment" />
     </fragment>
     <fragment
         android:id="@+id/favourite_fragment"
@@ -49,4 +52,15 @@
         android:name="net.nutrishare.app.view.fragments.CreatePostFragment"
         android:label="Create New Post"
         tools:layout="@layout/fragment_create_post" />
+    <dialog
+        android:id="@+id/commentsFragment"
+        android:name="net.nutrishare.app.view.fragments.CommentsFragment"
+        android:label="fragment_comments"
+        tools:layout="@layout/fragment_comments" >
+
+        <argument
+            android:name="post"
+            app:argType="net.nutrishare.app.model.Post" />
+
+    </dialog>
 </navigation>

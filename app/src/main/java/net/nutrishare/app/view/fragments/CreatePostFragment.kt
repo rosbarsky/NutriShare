@@ -46,7 +46,7 @@ class CreatePostFragment : Fragment() {
         val postDao = AppDatabase.getDatabase(requireContext()).postDao()
         val firestore = FirebaseFirestore.getInstance()
         val storage = FirebaseStorage.getInstance().reference
-        val repository = PostRepository(postDao, firestore,storage)
+        val repository = PostRepository(postDao, firestore,storage,null)
 
         postViewModel = PostViewModel(repository)
     }

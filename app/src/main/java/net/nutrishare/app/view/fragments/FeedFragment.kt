@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +17,7 @@ import net.nutrishare.app.data.PostRepository
 import net.nutrishare.app.database.AppDatabase
 import net.nutrishare.app.databinding.FragmentFeedBinding
 import net.nutrishare.app.model.Post
+import net.nutrishare.app.utils.SessionManager
 import net.nutrishare.app.viewmodel.PostViewModel
 
 
@@ -32,7 +34,7 @@ class FeedFragment : Fragment() {
         val postDao = AppDatabase.getDatabase(requireContext()).postDao()
         val firestore = FirebaseFirestore.getInstance()
         val storage = FirebaseStorage.getInstance().reference
-        val repository = PostRepository(postDao, firestore,storage)
+        val repository = PostRepository(postDao, firestore,storage,null)
 
         postViewModel = PostViewModel(repository)
     }
@@ -85,6 +87,15 @@ class FeedFragment : Fragment() {
                 }
             }
         })
+
+        postViewModel.operationStatus.observe(viewLifecycleOwner){ result->
+            result.onSuccess { message ->
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            }.onFailure { exception ->
+                Toast.makeText(requireContext(), exception.message, Toast.LENGTH_SHORT).show()
+            }
+        }
+
     }
 
     private fun setUpRecyclerView(){
@@ -95,6 +106,25 @@ class FeedFragment : Fragment() {
         adapter.setOnItemClickListener(object : PostAdapter.OnItemClickListener{
             override fun onItemClick(position: Int, post: Post) {
 
+            }
+
+            override fun onItemFavouriteClick(position: Int, post: Post) {
+                val userId = "${SessionManager.getUser()?.userId}" // Replace with the current user's ID
+                if (post.isFavorite){
+                    postViewModel.unfavoritePost(userId, post)
+                }
+                else{
+                    postViewModel.favoritePost(userId, post)
+                }
+                post.isFavorite = !post.isFavorite
+                postsList.removeAt(position)
+                postsList.add(position,post)
+                adapter.notifyItemChanged(position)
+            }
+
+            override fun onItemCommentClick(position: Int, post: Post) {
+                val action = FeedFragmentDirections.actionFeedFragmentToCommentsFragment(post)
+                findNavController().navigate(action)
             }
 
         })

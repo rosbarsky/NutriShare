@@ -10,6 +10,7 @@ import net.nutrishare.app.model.Post
 @Database(entities = [Post::class,Comment::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun postDao(): PostDao
+    abstract fun commentsDao(): CommentDao
 
     companion object {
         @Volatile

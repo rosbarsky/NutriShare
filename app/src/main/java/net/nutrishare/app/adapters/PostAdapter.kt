@@ -15,6 +15,8 @@ class PostAdapter(private val posts: MutableList<Post>) :
 
     interface OnItemClickListener {
         fun onItemClick(position: Int, post: Post)
+        fun onItemFavouriteClick(position: Int,post: Post)
+        fun onItemCommentClick(position: Int,post: Post)
     }
 
     private var mListener: OnItemClickListener? = null
@@ -74,8 +76,23 @@ class PostAdapter(private val posts: MutableList<Post>) :
                 postProductLinkView.text = post.productLink
                 postDescriptionView.text = post.description
 
+                if (post.isFavorite){
+                    postFavouriteView.setImageResource(R.drawable.ic_favourite)
+                }
+                else{
+                    postFavouriteView.setImageResource(R.drawable.ic_unfavourite)
+                }
+
                 binding.root.setOnClickListener {
                     mListener.onItemClick(layoutPosition, post)
+                }
+
+                binding.postFavouriteView.setOnClickListener {
+                    mListener.onItemFavouriteClick(layoutPosition,post)
+                }
+
+                binding.postCommentView.setOnClickListener {
+                    mListener.onItemCommentClick(layoutPosition,post)
                 }
             }
         }
