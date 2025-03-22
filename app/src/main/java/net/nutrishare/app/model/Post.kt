@@ -14,8 +14,8 @@ data class Post(
     @ColumnInfo(name = "product_link") var productLink: String,
     @ColumnInfo(name = "post_image") var postImage: String?,
     @ColumnInfo(name = "user_id") val userId: String,
-    @ColumnInfo(name = "user_name") val userName: String,
-    @ColumnInfo(name = "user_image") val userImage: String,
+    @ColumnInfo(name = "user_name") var userName: String,
+    @ColumnInfo(name = "user_image") var userImage: String,
     @ColumnInfo(name = "is_favorite") var isFavorite: Boolean = false,
     val timestamp: Long = System.currentTimeMillis(),
 ): Parcelable{

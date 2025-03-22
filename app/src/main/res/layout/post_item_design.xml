@@ -27,11 +27,38 @@
 
             <TextView
                 android:id="@+id/post_user_name_view"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="8dp"
                 android:textStyle="bold"/>
+
+            <ImageButton
+                android:id="@+id/post_edit_view"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:visibility="gone"
+                android:src="@drawable/ic_edit"
+                android:contentDescription="Edit Profile"
+                app:layout_constraintTop_toBottomOf="@id/username"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/username"
+                app:tint="#007AFF"
+                android:background="?selectableItemBackgroundBorderless" />
+
+            <ImageButton
+                android:id="@+id/post_delete_view"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:visibility="gone"
+                android:src="@drawable/ic_delete"
+                android:contentDescription="delete"
+                app:layout_constraintTop_toBottomOf="@id/username"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/username"
+                app:tint="#FF3B30"
+                android:background="?selectableItemBackgroundBorderless" />
         </LinearLayout>
         <View
             android:layout_width="match_parent"

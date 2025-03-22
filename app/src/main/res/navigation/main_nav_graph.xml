@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_feed_fragment_to_commentsFragment"
             app:destination="@id/commentsFragment" />
+        <action
+            android:id="@+id/action_feed_fragment_to_editPostFragment"
+            app:destination="@id/editPostFragment" />
     </fragment>
     <fragment
         android:id="@+id/favourite_fragment"
@@ -34,6 +37,12 @@
         <action
             android:id="@+id/action_favourite_fragment_to_profile_fragment"
             app:destination="@id/profile_fragment" />
+        <action
+            android:id="@+id/action_favourite_fragment_to_editPostFragment"
+            app:destination="@id/editPostFragment" />
+        <action
+            android:id="@+id/action_favourite_fragment_to_commentsFragment"
+            app:destination="@id/commentsFragment" />
     </fragment>
     <fragment
         android:id="@+id/profile_fragment"
@@ -49,6 +58,12 @@
         <action
             android:id="@+id/action_profile_fragment_to_editUserDetailFragment"
             app:destination="@id/editUserDetailFragment" />
+        <action
+            android:id="@+id/action_profile_fragment_to_editPostFragment"
+            app:destination="@id/editPostFragment" />
+        <action
+            android:id="@+id/action_profile_fragment_to_commentsFragment"
+            app:destination="@id/commentsFragment" />
     </fragment>
     <fragment
         android:id="@+id/createPostFragment"
@@ -74,5 +89,16 @@
         <action
             android:id="@+id/action_editUserDetailFragment_to_profile_fragment"
             app:destination="@id/profile_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editPostFragment"
+        android:name="net.nutrishare.app.view.fragments.EditPostFragment"
+        android:label="Update Post Details"
+        tools:layout="@layout/fragment_edit_post">
+
+        <argument
+            android:name="post"
+            app:argType="net.nutrishare.app.model.Post" />
+
     </fragment>
 </navigation>

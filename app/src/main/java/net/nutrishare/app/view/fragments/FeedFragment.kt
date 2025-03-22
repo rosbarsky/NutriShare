@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import net.nutrishare.app.R
@@ -18,6 +19,7 @@ import net.nutrishare.app.database.AppDatabase
 import net.nutrishare.app.databinding.FragmentFeedBinding
 import net.nutrishare.app.model.Post
 import net.nutrishare.app.utils.SessionManager
+import net.nutrishare.app.utils.WrapContentLinearLayoutManager
 import net.nutrishare.app.viewmodel.PostViewModel
 
 
@@ -99,7 +101,7 @@ class FeedFragment : Fragment() {
     }
 
     private fun setUpRecyclerView(){
-        binding.postsRecyclerview.layoutManager = LinearLayoutManager(requireActivity())
+        binding.postsRecyclerview.layoutManager = WrapContentLinearLayoutManager(requireActivity(),RecyclerView.VERTICAL,false)
         binding.postsRecyclerview.hasFixedSize()
         adapter = PostAdapter(postsList)
         binding.postsRecyclerview.adapter = adapter
@@ -125,6 +127,29 @@ class FeedFragment : Fragment() {
             override fun onItemCommentClick(position: Int, post: Post) {
                 val action = FeedFragmentDirections.actionFeedFragmentToCommentsFragment(post)
                 findNavController().navigate(action)
+            }
+
+            override fun onItemEditClick(position: Int, post: Post) {
+                val action = FeedFragmentDirections.actionFeedFragmentToEditPostFragment(post)
+                findNavController().navigate(action)
+            }
+
+            override fun onItemDeleteClick(position: Int, post: Post) {
+                val builder = MaterialAlertDialogBuilder(requireActivity())
+                builder.setTitle("Delete")
+                builder.setMessage("Are you sure you want to delete?")
+                builder.setNegativeButton("No"){dialog,which->
+                    dialog.dismiss()
+                }
+                builder.setPositiveButton("Yes"){dialog,which->
+                    dialog.dismiss()
+                    postViewModel.deletePost(post)
+                    postsList.removeAt(position)
+                    adapter.notifyItemChanged(position)
+                }
+
+                val alert = builder.create()
+                alert.show()
             }
 
         })

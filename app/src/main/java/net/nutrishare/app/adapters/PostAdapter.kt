@@ -9,6 +9,7 @@ import com.squareup.picasso.Picasso
 import net.nutrishare.app.R
 import net.nutrishare.app.databinding.PostItemDesignBinding
 import net.nutrishare.app.model.Post
+import net.nutrishare.app.utils.SessionManager
 
 class PostAdapter(private val posts: MutableList<Post>) :
     RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
@@ -17,6 +18,8 @@ class PostAdapter(private val posts: MutableList<Post>) :
         fun onItemClick(position: Int, post: Post)
         fun onItemFavouriteClick(position: Int,post: Post)
         fun onItemCommentClick(position: Int,post: Post)
+        fun onItemEditClick(position: Int,post: Post)
+        fun onItemDeleteClick(position: Int,post: Post)
     }
 
     private var mListener: OnItemClickListener? = null
@@ -76,6 +79,15 @@ class PostAdapter(private val posts: MutableList<Post>) :
                 postProductLinkView.text = post.productLink
                 postDescriptionView.text = post.description
 
+                if (post.userId == SessionManager.getUser()?.userId){
+                    postEditView.visibility = View.VISIBLE
+                    postDeleteView.visibility = View.VISIBLE
+                }
+                else{
+                    postEditView.visibility = View.GONE
+                    postDeleteView.visibility = View.GONE
+                }
+
                 if (post.isFavorite){
                     postFavouriteView.setImageResource(R.drawable.ic_favourite)
                 }
@@ -93,6 +105,15 @@ class PostAdapter(private val posts: MutableList<Post>) :
 
                 binding.postCommentView.setOnClickListener {
                     mListener.onItemCommentClick(layoutPosition,post)
+                }
+
+                binding.postEditView.setOnClickListener {
+                    mListener.onItemEditClick(layoutPosition,post)
+
+                }
+
+                binding.postDeleteView.setOnClickListener {
+                    mListener.onItemDeleteClick(layoutPosition,post)
                 }
             }
         }

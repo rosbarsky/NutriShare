@@ -10,11 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import net.nutrishare.app.R
-import net.nutrishare.app.adapters.MyPostAdapter
+import net.nutrishare.app.adapters.PostAdapter
 import net.nutrishare.app.data.AuthRepository
 import net.nutrishare.app.data.PostRepository
 import net.nutrishare.app.database.AppDatabase
@@ -23,6 +25,7 @@ import net.nutrishare.app.factory.AuthViewModelFactory
 import net.nutrishare.app.model.Post
 import net.nutrishare.app.model.User
 import net.nutrishare.app.utils.SessionManager
+import net.nutrishare.app.utils.WrapContentLinearLayoutManager
 import net.nutrishare.app.view.activities.AuthActivity
 import net.nutrishare.app.viewmodel.AuthViewModel
 import net.nutrishare.app.viewmodel.PostViewModel
@@ -34,7 +37,7 @@ class ProfileFragment : Fragment() {
     private var user:User?=null
     private lateinit var authViewModel: AuthViewModel
     private val myPosts = mutableListOf<Post>()
-    private lateinit var adapter: MyPostAdapter
+    private lateinit var adapter: PostAdapter
     private lateinit var postViewModel: PostViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -106,11 +109,12 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setUpRecyclerView(){
-        binding.myPostsRecyclerview.layoutManager = LinearLayoutManager(requireActivity())
+        binding.myPostsRecyclerview.layoutManager = WrapContentLinearLayoutManager(requireActivity(),
+            RecyclerView.VERTICAL,false)
         binding.myPostsRecyclerview.hasFixedSize()
-        adapter = MyPostAdapter(myPosts)
+        adapter = PostAdapter(myPosts)
         binding.myPostsRecyclerview.adapter = adapter
-        adapter.setOnItemClickListener(object : MyPostAdapter.OnItemClickListener{
+        adapter.setOnItemClickListener(object : PostAdapter.OnItemClickListener{
             override fun onItemClick(position: Int, post: Post) {
 
             }
@@ -129,8 +133,31 @@ class ProfileFragment : Fragment() {
             }
 
             override fun onItemCommentClick(position: Int, post: Post) {
-                val action = FeedFragmentDirections.actionFeedFragmentToCommentsFragment(post)
+                val action = ProfileFragmentDirections.actionProfileFragmentToCommentsFragment(post)
                 findNavController().navigate(action)
+            }
+
+            override fun onItemEditClick(position: Int, post: Post) {
+                val action = ProfileFragmentDirections.actionProfileFragmentToEditPostFragment(post)
+                findNavController().navigate(action)
+            }
+
+            override fun onItemDeleteClick(position: Int, post: Post) {
+                val builder = MaterialAlertDialogBuilder(requireActivity())
+                builder.setTitle("Delete")
+                builder.setMessage("Are you sure you want to delete?")
+                builder.setNegativeButton("No"){dialog,which->
+                    dialog.dismiss()
+                }
+                builder.setPositiveButton("Yes"){dialog,which->
+                    dialog.dismiss()
+                    postViewModel.deletePost(post)
+                    myPosts.removeAt(position)
+                    adapter.notifyItemChanged(position)
+                }
+
+                val alert = builder.create()
+                alert.show()
             }
 
         })
