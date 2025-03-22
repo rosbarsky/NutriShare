@@ -50,6 +50,10 @@ class PostRepository(
         return postDao.getAllPosts()
     }
 
+    suspend fun getAllPostsByUserId(userId: String): List<Post> {
+        return postDao.getPostsByUserId(userId)
+    }
+
     private suspend fun syncPostsFromFirestore() {
         try {
 

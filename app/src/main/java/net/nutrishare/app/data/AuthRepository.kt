@@ -83,8 +83,8 @@ class AuthRepository {
             userId ?: throw Exception("User ID is null")
 
             firestore.collection("USERS").document(userId).update("userName", newName).await()
-
-            AuthResult.Success("User name updated successfully")
+            fetchUserDetails(userId)
+            AuthResult.Success("Profile details updated successfully")
         } catch (e: Exception) {
             AuthResult.Failure(e)
         }
@@ -97,7 +97,7 @@ class AuthRepository {
             val imageUrl = uploadProfileImage(userId, newImageUri)
 
             firestore.collection("USERS").document(userId).update("profileImageUrl", imageUrl).await()
-
+            fetchUserDetails(userId)
             AuthResult.Success("Profile image updated successfully")
         } catch (e: Exception) {
             AuthResult.Failure(e)

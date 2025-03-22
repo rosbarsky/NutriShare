@@ -46,6 +46,9 @@
         <action
             android:id="@+id/action_profile_fragment_to_favourite_fragment"
             app:destination="@id/favourite_fragment" />
+        <action
+            android:id="@+id/action_profile_fragment_to_editUserDetailFragment"
+            app:destination="@id/editUserDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/createPostFragment"
@@ -63,4 +66,13 @@
             app:argType="net.nutrishare.app.model.Post" />
 
     </dialog>
+    <fragment
+        android:id="@+id/editUserDetailFragment"
+        android:name="net.nutrishare.app.view.fragments.EditUserDetailFragment"
+        android:label="Update User Details"
+        tools:layout="@layout/fragment_edit_user_detail" >
+        <action
+            android:id="@+id/action_editUserDetailFragment_to_profile_fragment"
+            app:destination="@id/profile_fragment" />
+    </fragment>
 </navigation>

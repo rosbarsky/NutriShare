@@ -18,6 +18,9 @@ class PostViewModel(private val repository: PostRepository) : ViewModel() {
     private val _postsLiveData = MutableLiveData<List<Post>>()
     val postsLiveData: LiveData<List<Post>> = _postsLiveData
 
+    private val _myPostsLiveData = MutableLiveData<List<Post>>()
+    val myPostsLiveData: LiveData<List<Post>> = _myPostsLiveData
+
     private val _favoritePosts = MutableLiveData<List<Post>>()
     val favoritePosts: LiveData<List<Post>> = _favoritePosts
 
@@ -52,6 +55,7 @@ class PostViewModel(private val repository: PostRepository) : ViewModel() {
             _favoritePosts.postValue(posts)
         }
     }
+
 
     fun createPost(post: Post, imageUri: Uri?) {
         viewModelScope.launch {
@@ -93,6 +97,13 @@ class PostViewModel(private val repository: PostRepository) : ViewModel() {
         viewModelScope.launch {
             val posts = repository.getAllPosts()
             _postsLiveData.postValue(posts)
+        }
+    }
+
+    fun loadAllPostsByUserId(userId: String) {
+        viewModelScope.launch {
+            val posts = repository.getAllPostsByUserId(userId)
+            _myPostsLiveData.postValue(posts)
         }
     }
 
