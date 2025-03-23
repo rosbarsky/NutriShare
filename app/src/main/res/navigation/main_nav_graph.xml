@@ -25,6 +25,12 @@
         <action
             android:id="@+id/action_feed_fragment_to_editPostFragment"
             app:destination="@id/editPostFragment" />
+        <action
+            android:id="@+id/action_feed_fragment_to_postDetailFragment"
+            app:destination="@id/postDetailFragment" />
+        <action
+            android:id="@+id/action_feed_fragment_to_openFoodFactsFragment"
+            app:destination="@id/openFoodFactsFragment" />
     </fragment>
     <fragment
         android:id="@+id/favourite_fragment"
@@ -43,6 +49,12 @@
         <action
             android:id="@+id/action_favourite_fragment_to_commentsFragment"
             app:destination="@id/commentsFragment" />
+        <action
+            android:id="@+id/action_favourite_fragment_to_postDetailFragment"
+            app:destination="@id/postDetailFragment" />
+        <action
+            android:id="@+id/action_favourite_fragment_to_openFoodFactsFragment"
+            app:destination="@id/openFoodFactsFragment" />
     </fragment>
     <fragment
         android:id="@+id/profile_fragment"
@@ -64,6 +76,12 @@
         <action
             android:id="@+id/action_profile_fragment_to_commentsFragment"
             app:destination="@id/commentsFragment" />
+        <action
+            android:id="@+id/action_profile_fragment_to_postDetailFragment"
+            app:destination="@id/postDetailFragment" />
+        <action
+            android:id="@+id/action_profile_fragment_to_openFoodFactsFragment"
+            app:destination="@id/openFoodFactsFragment" />
     </fragment>
     <fragment
         android:id="@+id/createPostFragment"
@@ -101,4 +119,26 @@
             app:argType="net.nutrishare.app.model.Post" />
 
     </fragment>
+    <fragment
+        android:id="@+id/postDetailFragment"
+        android:name="net.nutrishare.app.view.fragments.PostDetailFragment"
+        android:label="Post Detail"
+        tools:layout="@layout/fragment_post_detail" >
+
+        <argument
+            android:name="post"
+            app:argType="net.nutrishare.app.model.Post" />
+        <action
+            android:id="@+id/action_postDetailFragment_to_editPostFragment"
+            app:destination="@id/editPostFragment" />
+        <action
+            android:id="@+id/action_postDetailFragment_to_commentsFragment"
+            app:destination="@id/commentsFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/openFoodFactsFragment"
+        android:name="net.nutrishare.app.view.fragments.OpenFoodFactsFragment"
+        android:label="Open Food Facts"
+        tools:layout="@layout/fragment_open_food_facts" />
 </navigation>

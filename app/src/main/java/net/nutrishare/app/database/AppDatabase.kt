@@ -6,11 +6,13 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import net.nutrishare.app.model.Comment
 import net.nutrishare.app.model.Post
+import net.nutrishare.app.model.Product
 
-@Database(entities = [Post::class,Comment::class], version = 1, exportSchema = false)
+@Database(entities = [Post::class,Comment::class, Product::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun postDao(): PostDao
     abstract fun commentsDao(): CommentDao
+    abstract fun productDao(): ProductDao
 
     companion object {
         @Volatile
@@ -22,7 +24,8 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "nutri_share_db"
-                ).build()
+                ).allowMainThreadQueries()
+                    .build()
                 INSTANCE = instance
                 instance
             }

@@ -5,6 +5,7 @@ import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
 import net.nutrishare.app.model.User
 import net.nutrishare.app.utils.SessionManager
@@ -51,6 +52,7 @@ class AuthRepository {
             } else null
             saveUserDetail(user?.uid, username, imageUrl)
             SessionManager.setUser(User("${user?.uid}",username,"$imageUrl"))
+            delay(3000)
             AuthResult.Success("Registration Successful")
         } catch (e: Exception) {
             AuthResult.Failure(e)

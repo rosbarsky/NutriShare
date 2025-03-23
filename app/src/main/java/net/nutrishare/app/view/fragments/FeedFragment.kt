@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.firestore.FirebaseFirestore
@@ -98,6 +97,7 @@ class FeedFragment : Fragment() {
             }
         }
 
+
     }
 
     private fun setUpRecyclerView(){
@@ -107,7 +107,8 @@ class FeedFragment : Fragment() {
         binding.postsRecyclerview.adapter = adapter
         adapter.setOnItemClickListener(object : PostAdapter.OnItemClickListener{
             override fun onItemClick(position: Int, post: Post) {
-
+                val action = FeedFragmentDirections.actionFeedFragmentToPostDetailFragment(post)
+                findNavController().navigate(action)
             }
 
             override fun onItemFavouriteClick(position: Int, post: Post) {
@@ -162,4 +163,6 @@ class FeedFragment : Fragment() {
         }
 
     }
+
+
 }

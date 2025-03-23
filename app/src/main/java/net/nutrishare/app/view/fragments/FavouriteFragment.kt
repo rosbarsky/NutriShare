@@ -99,7 +99,8 @@ class FavouriteFragment : Fragment() {
         binding.favouritesRecyclerview.adapter = adapter
         adapter.setOnItemClickListener(object : PostAdapter.OnItemClickListener{
             override fun onItemClick(position: Int, post: Post) {
-
+                val action = FavouriteFragmentDirections.actionFavouriteFragmentToPostDetailFragment(post)
+                findNavController().navigate(action)
             }
 
             override fun onItemFavouriteClick(position: Int, post: Post) {

@@ -116,7 +116,8 @@ class ProfileFragment : Fragment() {
         binding.myPostsRecyclerview.adapter = adapter
         adapter.setOnItemClickListener(object : PostAdapter.OnItemClickListener{
             override fun onItemClick(position: Int, post: Post) {
-
+                val action = ProfileFragmentDirections.actionProfileFragmentToPostDetailFragment(post)
+                findNavController().navigate(action)
             }
 
             override fun onItemFavouriteClick(position: Int, post: Post) {
